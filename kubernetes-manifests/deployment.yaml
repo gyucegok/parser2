@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: async-pull
+  namespace: async-pull
+  labels:
+    app: async-pull
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: async-pull
+  template:
+    metadata:
+      labels:
+        app: async-pull
+    spec:
+      serviceAccountName: async-pull
+      containers:
+        - name: async-pull
+          image: europe-west1-docker.pkg.dev/gyucegok-alto/dock/async-pull:latest
+          ports:
+          - name: http-server
+            containerPort: 8080
+          env:
+          - name: PORT
+            value: "8080"
